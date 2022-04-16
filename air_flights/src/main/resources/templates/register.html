@@ -3,23 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
-    <form th:action="@{/register}" method="post" th:object="${user}">
+<div class="centrator">
+    <form class="form" th:action="@{/register}" method="post" th:object="${user}">
+        <div class="form-group">
+            <label for="inputEmail3">Email</label>
+            <input type="email" class="form-control" id="inputEmail3" th:field="*{email}">
+        </div>
 
-        <input type="email" th:field="*{email}" placeholder="Email">
+        <div class="form-group">
+            <label for="inputPass">Password</label>
+            <input type="password"  class="form-control" id="inputPass" th:field="*{password}" aria-describedby="passwordHelpInline">
+            <small id="passwordHelpInline" class="text-muted">
+                Must be 8-20 characters long.
+            </small>
+        </div>
 
-        <input type="password" th:field="*{password}" placeholder="Password">
 
-        <input type="password" th:field="*{commitPassword}" placeholder="Confirm password">
+        <div class="form-group">
+            <label for="inputPass1">Confirm password</label>
+            <input type="password"  class="form-control" id="inputPass1" th:field="*{commitPassword}">
+        </div>
+        <button type="submit" class="btn btn-primary my-1">Register</button>
 
-        <input type="submit" value="Register">
-
-        <div th:if="${#fields.hasAnyErrors()}">
+        <div th:if="${#fields.hasAnyErrors()}" class="form-group">
+            <label>Errors</label>
             <ul>
                 <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
             </ul>
         </div>
+        <div th:if="${email_was_sent == true}" class="form-group">
+            <label>Mail with confirming link was sent to your email!</label>
+        </div>
     </form>
+</div>
 </body>
 </html>

@@ -4,6 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
@@ -15,12 +17,21 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
+    @Pattern(regexp = "^(.+)@(.+)$", message = "It is not an email address!")
     @Column(name = "email")
     private String email;
 
-    @Size(min = 8, max = 20)
+    @NotBlank
+    @Size(min = 8, max = 20, message = "Password must contains minimum 8 characters")
     @Column(name = "password")
     private String password;
+
+    @Column
+    private String confirmLink;
+
+    @Column
+    private boolean fullyRegistered;
 
     @Transient
     private  String commitPassword;
@@ -60,7 +71,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isFullyRegistered();
     }
 
     public int getId() {
@@ -97,5 +108,21 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getConfirmLink() {
+        return confirmLink;
+    }
+
+    public void setConfirmLink(String confirmLink) {
+        this.confirmLink = confirmLink;
+    }
+
+    public boolean isFullyRegistered() {
+        return fullyRegistered;
+    }
+
+    public void setFullyRegistered(boolean fullyRegistered) {
+        this.fullyRegistered = fullyRegistered;
     }
 }

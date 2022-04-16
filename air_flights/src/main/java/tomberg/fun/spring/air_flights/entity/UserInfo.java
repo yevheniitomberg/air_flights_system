@@ -1,5 +1,7 @@
 package tomberg.fun.spring.air_flights.entity;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -11,22 +13,28 @@ public class UserInfo {
     private int id;
 
     @Column
+    @Nullable
     private String name;
 
     @Column
+    @Nullable
     private String surname;
 
     @Column
+    @Nullable
     private Date date_of_birth;
 
     @Column
+    @Nullable
     private String citizenship;
 
     @ManyToOne
     @JoinColumn(name = "gender_id")
+    @Nullable
     private Gender gender;
 
     @Column
+    @Nullable
     private String pass_num;
 
     public int getId() {

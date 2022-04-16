@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import tomberg.fun.spring.air_flights.entity.User;
+import tomberg.fun.spring.air_flights.entity.UserInfo;
 import tomberg.fun.spring.air_flights.repository.UserRepository;
 import tomberg.fun.spring.air_flights.service.EmailService;
 import tomberg.fun.spring.air_flights.service.UserService;
@@ -26,7 +27,9 @@ public class RegisterController {
 
     @GetMapping("/register")
     public  String registerView(Model model) {
-        model.addAttribute("user", new User());
+        User user = new User();
+        user.setUserInfo((new UserInfo()));
+        model.addAttribute("user", user);
         return "register";
     }
 

@@ -1,5 +1,7 @@
 package tomberg.fun.spring.air_flights.entity;
 
+import tomberg.fun.spring.air_flights.entity.location.City;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -16,14 +18,31 @@ public class Flight {
     private User user;
 
     @Column
-    private Date arrive_date;
+    private Date departure_date;
 
     @Column
-    private Date return_date;
+    private Date arrive_date;
 
     @ManyToOne
     @JoinColumn(name = "plane_id")
     private Plane plane;
+
+    @ManyToOne
+    @JoinColumn(name = "city_from_id")
+    private City city_from;
+
+    @ManyToOne
+    @JoinColumn(name = "city_to_id")
+    private City city_to;
+
+    public City getCity_to() {
+        return city_to;
+    }
+
+    public City getCity_from() {
+        return city_from;
+    }
+
 
     public Plane getPlane() {
         return plane;
@@ -53,15 +72,24 @@ public class Flight {
         this.arrive_date = arrive_date;
     }
 
-    public Date getReturn_date() {
-        return return_date;
-    }
-
-    public void setReturn_date(Date return_date) {
-        this.return_date = return_date;
-    }
 
     public void setPlane(Plane plane) {
         this.plane = plane;
+    }
+
+    public void setCity_from(City city_from) {
+        this.city_from = city_from;
+    }
+
+    public void setCity_to(City city_to) {
+        this.city_to = city_to;
+    }
+
+    public Date getDeparture_date() {
+        return departure_date;
+    }
+
+    public void setDeparture_date(Date departure_date) {
+        this.departure_date = departure_date;
     }
 }

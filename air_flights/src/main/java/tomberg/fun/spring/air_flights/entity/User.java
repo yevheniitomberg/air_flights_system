@@ -23,7 +23,7 @@ public class User implements UserDetails {
     private String email;
 
     @NotBlank
-    @Size(min = 8, max = 20, message = "Password must contains minimum 8 characters")
+    @Size(min = 8, message = "Password must contains minimum 8 characters")
     @Column(name = "password")
     private String password;
 
@@ -33,11 +33,19 @@ public class User implements UserDetails {
     @Column
     private boolean fullyRegistered;
 
+    @OneToOne
+    @JoinColumn(name = "user_info_id")
+    private UserInfo userInfo;
+
     @Transient
     private  String commitPassword;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -124,5 +132,20 @@ public class User implements UserDetails {
 
     public void setFullyRegistered(boolean fullyRegistered) {
         this.fullyRegistered = fullyRegistered;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmLink='" + confirmLink + '\'' +
+                ", fullyRegistered=" + fullyRegistered +
+                ", commitPassword='" + commitPassword + '\'' +
+                '}';
     }
 }

@@ -38,7 +38,7 @@ public class EmailService {
         message.setFrom(fromEmail);
         message.setTo(user.getEmail());
         message.setSubject("Registration confirm");
-        message.setText("Click here to confirm registration: http://localhost:8080/confirm/" + generatedLink);
+        message.setText("Click here to confirm registration: http://localhost:8080/register/confirm/" + generatedLink);
         try {
             javaMailSender.send(message);
         } catch (Exception e) {

@@ -1,8 +1,6 @@
 package tomberg.fun.spring.air_flights.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +32,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+        System.out.println(user);
         if (!user.getPassword().equals(user.getCommitPassword())) {
             ObjectError error = new ObjectError("pass_not_eq", "Passwords do not match");
             bindingResult.addError(error);
@@ -57,12 +56,18 @@ public class RegisterController {
         return "register";
     }
 
-
+    @GetMapping("/register/confirm/{confirmLink}")
+    public String confirmingRegistrationView(@PathVariable(value = "confirmLink") String confirmLink, Model model) {
+        User user = userRepository.findByConfirmLink(confirmLink);
+        model.addAttribute("user", user);
+        return "confirm";
+    }
 
     @PostMapping("/register/confirm/{confirmLink}")
-    public String confirmingRegistrationView(@PathVariable(value = "confirmLink") String confirmLink) {
+    public String confirmingRegistration(@PathVariable(value = "confirmLink") String confirmLink) {
         User user = userRepository.findByConfirmLink(confirmLink);
         user.setFullyRegistered(true);
+        userRepository.saveAndFlush(user);
         return "redirect:/login";
     }
 }

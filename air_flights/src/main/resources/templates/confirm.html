@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div class="centrator">
+    <form class="form" th:action="@{/register/confirm/{confirmLink}(confirmLink=${user.getConfirmLink()})}" method="post">
+        <h3 th:text="${user.getEmail()}"></h3>
+        <input type="submit" class="ui-button" value="Confirm registration">
+    </form>
+</div>
+</body>
+</html>

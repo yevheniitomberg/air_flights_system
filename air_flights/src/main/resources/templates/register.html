@@ -21,12 +21,12 @@
             </small>
         </div>
 
-
         <div class="form-group">
             <label for="inputPass1">Confirm password</label>
             <input type="password"  class="form-control" id="inputPass1" th:field="*{commitPassword}">
         </div>
         <button type="submit" class="btn btn-primary my-1">Register</button>
+        <input type="button" onclick="window.location.href='/login'" class="btn btn-primary my-1" value="Sign in">
 
         <div th:if="${#fields.hasAnyErrors()}" class="form-group">
             <label>Errors</label>

@@ -66,8 +66,7 @@ public class UserService implements UserDetailsService {
         }
         return false;
     }
-
-    public String getCurrentUsername() {
+    public String getCurrentEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }

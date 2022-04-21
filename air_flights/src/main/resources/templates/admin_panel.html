@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div class="centrator">
+    <form class="form" th:action="@{/admin}" method="post">
+
+        <button type="submit" name="submit" class="btn btn-primary my-1" th:value="'add_air'">Add airport</button>
+        <button type="submit" name="submit" class="btn btn-primary my-1" th:value="'mk_con'">Make connections</button>
+        <button type="submit" name="submit" class="btn btn-primary my-1" th:value="'routes'">Routes</button>
+
+        <input type="button" onclick="window.location.href='/account'" class="btn btn-primary my-1" value="Account">
+    </form>
+</div>
+</body>
+</html>

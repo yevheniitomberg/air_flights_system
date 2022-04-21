@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Routes</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+    <ul class="list-group">
+        <li th:each="schedule : ${schedules}" class="list-group-item d-flex justify-content-between align-items-center">
+            <th:block th:text="${schedule.getRoute().getAirportFrom().getFullName() +' → ' + schedule.getRoute().getAirportTo().getFullName()}"></th:block>
+            <form class="form-group" id="list_non_connected" method="post" th:action="@{/admin/routes}">
+                <div class="form-check" th:each="day : ${days}">
+                    <input class="form-check-input" type="checkbox" name="day" th:value="${day.getId()}" th:checked="${schedule.getPeriodical().contains(day)}">
+                    <label class="form-check-label" th:text="${day.getName()}"></label>
+                </div>
+                <input type="hidden" th:value="${schedule.getId()}" name="schedule">
+                <input type="hidden" th:value="${0}" name="day">
+                <button type="submit" class="btn btn-primary my-1">Submit changes</button>
+            </form>
+
+            <form class="form-group" method="post" th:action="@{/admin/routes}">
+                <input type="hidden" name="schedule" th:value="${schedule.getId()}">
+                <button type="submit" class="btn btn-primary my-1" >Manage</button>
+            </form>
+        </li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Make connections</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body onload="load_connections()">
+<div class="container-account" style="align-items: stretch;">
+
+    <div class="cont-component">
+        <select class="form-control" name="" id="sel" onchange="load_connections()">
+            <option th:each="airport : ${airports}" th:value="${airport.getAirportCode()}" th:text="${airport.getCountry() + ', ' + airport.getCity() + ' (' + airport.getAirportCode() + ')' }"></option>
+        </select>
+    </div>
+
+
+    <div class="cont-component" style="align-self: start;height: auto;padding: 20px;text-align: center;">
+        <div class="hello">
+            <h5>Already connected with:</h5>
+        </div>
+        <form th:action="@{/admin/make_connections}" method="post" class="book-button-cont">
+            <ul class="list-group" id="list_already_connected">
+
+            </ul>
+        </form>
+        <div class="homepage-button-cont">
+            <button  class="btn btn-primary my-1" th:text="Home" onclick="window.location.href='/homepage'"/>
+        </div>
+    </div>
+
+
+    <div class="cont-component" style="align-self: start;height: auto;padding: 20px;">
+        <div class="hello">
+            <h5>Can make connections with:</h5>
+        </div>
+        <form class="form-group" id="list_non_connected" method="post" th:action="@{/admin/make_connections}">
+
+        </form>
+
+    </div>
+</div>
+<script th:src="@{/js/load_airports_from_api.js}"></script>
+</body>
+</html>

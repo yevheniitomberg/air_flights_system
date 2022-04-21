@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import tomberg.fun.spring.air_flights.entity.Gender;
+import tomberg.fun.spring.air_flights.entity.Regulator;
 import tomberg.fun.spring.air_flights.entity.User;
 import tomberg.fun.spring.air_flights.entity.UserInfo;
-import tomberg.fun.spring.air_flights.repository.FlightsRepository;
-import tomberg.fun.spring.air_flights.repository.GenderRepository;
-import tomberg.fun.spring.air_flights.repository.UserInfoRepository;
-import tomberg.fun.spring.air_flights.repository.UserRepository;
+import tomberg.fun.spring.air_flights.entity.location.Airport;
+import tomberg.fun.spring.air_flights.repository.*;
 import tomberg.fun.spring.air_flights.service.UserInfoService;
 import tomberg.fun.spring.air_flights.service.UserService;
+
+import java.util.List;
 
 @Controller
 public class AccountController {
@@ -23,9 +23,6 @@ public class AccountController {
     UserService userService;
 
     @Autowired
-    FlightsRepository flightsRepository;
-
-    @Autowired
     GenderRepository genderRepository;
 
     @Autowired
@@ -34,12 +31,15 @@ public class AccountController {
     @Autowired
     UserInfoService userInfoService;
 
+    @Autowired
+    AirportRepository airportRepository;
+
     @GetMapping("/account")
     public String accountView(Model model) {
         User user = userRepository.findByEmail(userService.getCurrentEmail());
         model.addAttribute("user", user);
         model.addAttribute("info", user.getUserInfo());
-        model.addAttribute("flights", flightsRepository.findAllByUser(user));
+        //model.addAttribute("flights", flightsRepository.findAllByUser(user));
         return "account";
     }
 
@@ -50,7 +50,7 @@ public class AccountController {
             model.addAttribute("user", user);
             return "redirect:/account/update_info";
         }
-        if (action.equals("book")) {
+        if (action.equals("booking")) {
             model.addAttribute("user", user);
             return "redirect:/account/book_flight";
         }
@@ -73,5 +73,14 @@ public class AccountController {
         userInfoService.updateUserInfo(info, userInfo);
         userInfoRepository.saveAndFlush(info);
         return "redirect:/account";
+    }
+
+    @GetMapping("/account/book_flight")
+    public String bookingFlightView(Model model) {
+        List<Airport> list = airportRepository.findAll();
+        list.remove(airportRepository.findByAirportCode("000"));
+        model.addAttribute("airports", list);
+        model.addAttribute("flight", new Regulator());
+        return "book_flight";
     }
 }

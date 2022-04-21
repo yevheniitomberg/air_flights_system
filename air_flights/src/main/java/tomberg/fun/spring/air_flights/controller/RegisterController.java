@@ -8,6 +8,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import tomberg.fun.spring.air_flights.entity.User;
 import tomberg.fun.spring.air_flights.entity.UserInfo;
+import tomberg.fun.spring.air_flights.repository.UserInfoRepository;
 import tomberg.fun.spring.air_flights.repository.UserRepository;
 import tomberg.fun.spring.air_flights.service.EmailService;
 import tomberg.fun.spring.air_flights.service.UserService;
@@ -25,10 +26,12 @@ public class RegisterController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserInfoRepository userInfoRepository;
+
     @GetMapping("/register")
     public  String registerView(Model model) {
         User user = new User();
-        user.setUserInfo((new UserInfo()));
         model.addAttribute("user", user);
         return "register";
     }
@@ -55,6 +58,9 @@ public class RegisterController {
             return "register";
         }
         model.addAttribute("email_was_sent", true);
+        UserInfo userInfo = new UserInfo();
+        userInfoRepository.save(userInfo);
+        user.setUserInfo(userInfo);
         userService.saveUser(user);
         return "register";
     }

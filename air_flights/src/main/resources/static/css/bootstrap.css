@@ -67,6 +67,8 @@ body {
   color: #212529;
   text-align: left;
   background-color: #fff;
+  min-width: 380px;
+  overflow-x: hidden;
 }
 
 [tabindex="-1"]:focus {
@@ -1963,13 +1965,16 @@ pre code {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 1px 1px 15px 5px rgb(65, 227, 248);
+  transition: 0.3s ease;
 }
 .centrator {
   display: flex;
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  margin: auto;
 }
+
 .vertical-center {
   margin: 0;
   position: absolute;
@@ -9015,6 +9020,7 @@ a.text-dark:hover, a.text-dark:focus {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
 }
 .user-info {
   flex: 0 1 100%;
@@ -9049,19 +9055,12 @@ a.text-dark:hover, a.text-dark:focus {
   justify-content: space-evenly;
 }
 
-
 @media (max-width: 975px) and (min-width: 601px) {
   .cont-component {
     flex: 0 1 40%;
   }
-  .container-account:nth-child(2) {
-    order: 1;
-  }
-  .container-account:nth-child(3) {
-    order: 2;
-  }
-  .container-account:nth-child(1) {
-    order: 3;
+  .flights {
+    flex: 0 1 70%;
   }
 }
 @media (max-width: 600px) and (min-width: 400px) {
@@ -9077,7 +9076,23 @@ a.text-dark:hover, a.text-dark:focus {
   .container-account:nth-child(1) {
     order: 3;
   }
+  .form {
+    flex: 0 1 80%;
+  }
 }
-
+#video-bg {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+.wave-block {
+  display: block;
+  margin: 50px auto;
+  z-index: 5;
+  position: relative;
+}
+svg{font-weight:bold; height:auto;}
 
 /*# sourceMappingURL=bootstrap.css.map */

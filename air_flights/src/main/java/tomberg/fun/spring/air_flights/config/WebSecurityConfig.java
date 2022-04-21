@@ -32,8 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/account/**").hasRole("USER")
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/**/css/**").permitAll()
                 .antMatchers("/**/img/**").permitAll()
+                .antMatchers("/**/mp4/**").permitAll()
                 //Доступ разрешен всем пользователей
                 .antMatchers("/").permitAll()
                 .antMatchers("/homepage").permitAll()

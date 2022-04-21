@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Managing</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<ul class="list-group">
+    <li th:text="${schedule.getRoute().getAirportFrom().getFullName() +' → ' + schedule.getRoute().getAirportTo().getFullName()}"></li>
+    <li th:each="reg : ${regs}" class="list-group-item d-flex justify-content-between align-items-center">
+        <div th:text="${reg.getDay().getName()}"></div>
+        <form class="form-group" method="post" th:action="@{/admin/routes}">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="col-form-label">Date from</label>
+                </div>
+                <div class="col-auto">
+                    <input type="date" name="date_from" class="form-control" aria-describedby="passwordHelpInline">
+                </div>
+            </div>
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="col-form-label">Date to</label>
+                </div>
+                <div class="col-auto">
+                    <input type="date" name="date_to" class="form-control" aria-describedby="passwordHelpInline">
+                </div>
+            </div>
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="col-form-label">Departure time</label>
+                </div>
+                <div class="col-auto">
+                    <input type="time" step="3600" name="dep_time" class="form-control" aria-describedby="passwordHelpInline">
+                </div>
+            </div>
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="col-form-label">Arrive time</label>
+                </div>
+                <div class="col-auto">
+                    <input type="time" step="3600" name="arr_time" class="form-control" aria-describedby="passwordHelpInline">
+                </div>
+            </div>
+            <input type="hidden" name="regulator" th:value="${reg.getId()}">
+            <button type="submit" class="btn btn-primary my-1" >Submit and create flights</button>
+        </form>
+    </li>
+</ul>
+</body>
+</html>

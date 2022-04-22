@@ -207,7 +207,7 @@ public class AdminController {
         return "managing";
     }
 
-/*    @PostMapping(value = "/routes", params = {"regulator", "date_from", "date_to", "dep_time", "arr_time"})
+/*  @PostMapping(value = "/routes", params = {"regulator", "date_from", "date_to", "dep_time", "arr_time"})
     public String regulatorParsing(Model model, @RequestParam("regulator") int id,
                                    @RequestParam("date_from") String date_from,
                                    @RequestParam("date_to") String date_to,

@@ -18,6 +18,7 @@ public class Tester {
         for (LocalDate date2: dates) {
             System.out.println(date2.getDayOfWeek());
         }
+        System.out.println(date1);
     }
 }
 

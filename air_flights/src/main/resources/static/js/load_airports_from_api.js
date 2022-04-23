@@ -26,6 +26,9 @@ function load_connections() {
         if (data.length !== 0) {
             var str = ""
             for (var airport of data) {
+                if (airport.airportCode === "000") {
+                    continue;
+                }
                 str += '<div class="form-check"><input name="connections" class="form-check-input" type="checkbox" value="' + airport.airportCode + '"><label class="form-check-label">' + airport.country + ', ' + airport.city + ' (' + airport.airportCode + ')</label></div>'
             }
             str+= '<input type="hidden" value="000" name="connections"><input type="hidden" value="'+ airport_code + '" name="selected_airport"><input type="hidden" value="mk_con" name="action"><input type="submit" class="btn btn-primary my-1" value="Make connections">'

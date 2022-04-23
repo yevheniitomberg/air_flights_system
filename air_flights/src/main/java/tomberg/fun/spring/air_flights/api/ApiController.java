@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tomberg.fun.spring.air_flights.entity.location.Airport;
 import tomberg.fun.spring.air_flights.repository.AirportRepository;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,6 +47,12 @@ public class ApiController {
             setAll.remove(airport);
             return setAll;
         }
+        return null;
+    }
+
+    @GetMapping("/{action}")
+    @CrossOrigin(allowedHeaders = "*", origins = "http://localhost:8080/")
+    public Set<LocalDate> availableDates(@PathVariable String action, @PathVariable String AirportCode) {
         return null;
     }
 }

@@ -32,7 +32,7 @@
                     <label class="col-form-label">Departure time</label>
                 </div>
                 <div class="col-auto">
-                    <input type="time" step="3600" name="dep_time" class="form-control" aria-describedby="passwordHelpInline">
+                    <input type="time" step="60" name="dep_time" class="form-control" aria-describedby="passwordHelpInline">
                 </div>
             </div>
             <div class="row g-3 align-items-center">
@@ -40,7 +40,7 @@
                     <label class="col-form-label">Arrive time</label>
                 </div>
                 <div class="col-auto">
-                    <input type="time" step="3600" name="arr_time" class="form-control" aria-describedby="passwordHelpInline">
+                    <input type="time" step="60" name="arr_time" class="form-control" aria-describedby="passwordHelpInline">
                 </div>
             </div>
             <input type="hidden" name="regulator" th:value="${reg.getId()}">

@@ -1,18 +1,22 @@
 package tomberg.fun.spring.air_flights.controller;
 
+import com.zaxxer.hikari.util.FastList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import tomberg.fun.spring.air_flights.entity.Regulator;
-import tomberg.fun.spring.air_flights.entity.Route;
-import tomberg.fun.spring.air_flights.entity.Schedule;
+import tomberg.fun.spring.air_flights.entity.*;
 import tomberg.fun.spring.air_flights.entity.location.Airport;
+import tomberg.fun.spring.air_flights.entity.time.DateSelector;
 import tomberg.fun.spring.air_flights.entity.time.Day;
 import tomberg.fun.spring.air_flights.repository.*;
 import tomberg.fun.spring.air_flights.service.UserService;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +45,18 @@ public class AdminController {
 
     @Autowired
     RegulatorRepository regulatorRepository;
+
+    @Autowired
+    DateSelector dateSelector;
+
+    @Autowired
+    PlaneRepository planeRepository;
+
+    @Autowired
+    FlightRepository flightRepository;
+
+    @Autowired
+    PlaceRepository placeRepository;
 
     @GetMapping("")
     public String adminView(Model model) {
@@ -128,6 +144,7 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/make_connections", params = {"sel_airport", "del_airport"}, method = RequestMethod.POST)
+    @Transactional
     public String actionsWithConnections(@RequestParam("sel_airport") String sel_airport,
                                          @RequestParam("del_airport")String del_airport) {
 
@@ -142,6 +159,10 @@ public class AdminController {
 
         Schedule schedule = scheduleRepository.findByRoute(route);
         Schedule schedule1 = scheduleRepository.findByRoute(route1);
+
+        regulatorRepository.deleteAllBySchedule(schedule);
+        regulatorRepository.deleteAllBySchedule(schedule1);
+
         scheduleRepository.delete(schedule);
         scheduleRepository.delete(schedule1);
 
@@ -159,7 +180,6 @@ public class AdminController {
     @GetMapping("/routes")
     public String routesView(Model model) {
         List<Route> routes = routeRepository.findAllWithoutDefault();
-        System.out.println(routes);
         List<Schedule> schedules = new ArrayList<>();
         List<Day> days = dayRepository.findAll();
         for(Route route: routes) {
@@ -207,14 +227,49 @@ public class AdminController {
         return "managing";
     }
 
-/*  @PostMapping(value = "/routes", params = {"regulator", "date_from", "date_to", "dep_time", "arr_time"})
-    public String regulatorParsing(Model model, @RequestParam("regulator") int id,
+    @PostMapping(value = "/routes", params = {"regulator", "date_from", "date_to", "dep_time", "arr_time"})
+    public String flightCreator(Model model, @RequestParam("regulator") int id,
                                    @RequestParam("date_from") String date_from,
                                    @RequestParam("date_to") String date_to,
                                    @RequestParam("dep_time") String dep_time,
-                                   @RequestParam("arr_time") String arr_time) {
+                                   @RequestParam("arr_time") String arr_time) throws ParseException {
 
-        System.out.println(id + date_from + date_to + dep_time + arr_time);
-        return "redirect:/"
-    }*/
+        Regulator regulator = regulatorRepository.findById(id).get();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        regulator.setValidFromDate(LocalDate.parse(date_from, formatter));
+        regulator.setValidToDate(LocalDate.parse(date_to, formatter));
+
+        regulator.setDepartureTime(new Time(Integer.parseInt(dep_time.substring(0, 2)),
+                                            Integer.parseInt(dep_time.substring(3, 5)),
+                                            0));
+        regulator.setArriveTime(new Time(Integer.parseInt(arr_time.substring(0, 2)),
+                                            Integer.parseInt(arr_time.substring(3, 5)),
+                                            0));
+
+        regulatorRepository.save(regulator);
+
+        List<LocalDate> dates = dateSelector.getDatesByWeekdayAndBetweenTwoDays(regulator.getDay().getId(), regulator.getValidFromDate(), regulator.getValidToDate());
+
+        for (LocalDate date : dates) {
+            Flight flight = new Flight();
+            flight.setDepDate(date);
+            flight.setArrDate(date);
+            flight.setPrice(100);
+            flight.setPlane(planeRepository.findById(1).get());
+            flight.setDepTime(regulator.getDepartureTime());
+            flight.setArrTime(regulator.getArriveTime());
+            flight.setRegulator(regulator);
+            flightRepository.save(flight);
+            Set<Place> places = new HashSet<>();
+            for (int i = 1; i <= flight.getPlane().getPlaces(); i++) {
+                Place place = new Place(false, i);
+                placeRepository.save(place);
+                places.add(place);
+            }
+            flight.setPlaces(places);
+            flightRepository.save(flight);
+        }
+        return "redirect:/admin/routes";
+    }
 }

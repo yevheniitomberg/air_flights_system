@@ -2,11 +2,13 @@ package tomberg.fun.spring.air_flights.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tomberg.fun.spring.air_flights.entity.Flight;
 import tomberg.fun.spring.air_flights.entity.location.Airport;
-import tomberg.fun.spring.air_flights.repository.AirportRepository;
+import tomberg.fun.spring.air_flights.repository.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -16,11 +18,23 @@ public class ApiController {
     @Autowired
     AirportRepository airportRepository;
 
-    @GetMapping("/{action}/{AirportCode}")
+    @Autowired
+    RouteRepository routeRepository;
+
+    @Autowired
+    ScheduleRepository scheduleRepository;
+
+    @Autowired
+    FlightRepository flightRepository;
+
+    @Autowired
+    RegulatorRepository regulatorRepository;
+
+    @GetMapping("/book/{action}/{AirportCode}")
     @CrossOrigin(allowedHeaders = "*", origins = "http://localhost:8080/")
     public Set<Airport> airportConnectedSet(@PathVariable String action, @PathVariable String AirportCode) {
 
-        if (action.equals("book")) {
+        if (action.equals("select")) {
             Airport airport = airportRepository.findByAirportCode(AirportCode);
             Set<Airport> set = airport.getConnected_airports();
 
@@ -50,9 +64,18 @@ public class ApiController {
         return null;
     }
 
-    @GetMapping("/{action}")
+    @GetMapping("/dates/{from}/{to}")
     @CrossOrigin(allowedHeaders = "*", origins = "http://localhost:8080/")
-    public Set<LocalDate> availableDates(@PathVariable String action, @PathVariable String AirportCode) {
-        return null;
+    public Set<LocalDate> availableDates(@PathVariable String from, @PathVariable String to) {
+        int from_id = airportRepository.findByAirportCode(from).getId();
+        int to_id = airportRepository.findByAirportCode(to).getId();
+
+        List<Flight> flightList = flightRepository.findAllByRegulator(regulatorRepository.findBySchedule(scheduleRepository.findByRoute(routeRepository.findByAirportFromIdAndAirportToId(from_id, to_id))));
+
+        Set<LocalDate> set = new HashSet<>();
+        for (Flight flight : flightList) {
+            set.add(flight.getDepDate());
+        }
+        return set;
     }
 }

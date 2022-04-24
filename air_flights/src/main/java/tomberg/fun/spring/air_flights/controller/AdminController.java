@@ -1,6 +1,5 @@
 package tomberg.fun.spring.air_flights.controller;
 
-import com.zaxxer.hikari.util.FastList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +10,7 @@ import tomberg.fun.spring.air_flights.entity.location.Airport;
 import tomberg.fun.spring.air_flights.entity.time.DateSelector;
 import tomberg.fun.spring.air_flights.entity.time.Day;
 import tomberg.fun.spring.air_flights.repository.*;
+import tomberg.fun.spring.air_flights.service.RegulatorService;
 import tomberg.fun.spring.air_flights.service.UserService;
 
 import java.sql.Time;
@@ -57,6 +57,9 @@ public class AdminController {
 
     @Autowired
     PlaceRepository placeRepository;
+
+    @Autowired
+    RegulatorService regulatorService;
 
     @GetMapping("")
     public String adminView(Model model) {
@@ -153,12 +156,26 @@ public class AdminController {
         Airport airport_sel = airportRepository.findByAirportCode(sel_airport);
         Airport airport_del = airportRepository.findByAirportCode(del_airport);
 
-
         Route route = routeRepository.findByAirportFromIdAndAirportToId(airport_sel.getId(), airport_del.getId());
         Route route1 = routeRepository.findByAirportFromIdAndAirportToId(airport_del.getId(), airport_sel.getId());
 
         Schedule schedule = scheduleRepository.findByRoute(route);
         Schedule schedule1 = scheduleRepository.findByRoute(route1);
+
+        Regulator regulator = regulatorRepository.findBySchedule(schedule);
+        Regulator regulator1 = regulatorRepository.findBySchedule(schedule1);
+
+        List<Flight> flights = flightRepository.findAllByRegulator(regulator);
+        List<Flight> flights1 = flightRepository.findAllByRegulator(regulator1);
+
+        for (Flight flight : flights) {
+            placeRepository.deleteAll(flight.getPlaces());
+            flightRepository.delete(flight);
+        }
+        for (Flight flight : flights1) {
+            placeRepository.deleteAll(flight.getPlaces());
+            flightRepository.delete(flight);
+        }
 
         regulatorRepository.deleteAllBySchedule(schedule);
         regulatorRepository.deleteAllBySchedule(schedule1);
@@ -194,18 +211,23 @@ public class AdminController {
     @Transactional
     public String routesDaysManaging(Model model, @RequestParam("day") List<Integer> days, @RequestParam("schedule") int id) {
         Schedule schedule = scheduleRepository.findById(id).get();
-        if (days.get(0) == 0) {
-            schedule.getPeriodical().clear();
-            regulatorRepository.deleteAllBySchedule(schedule);
-            scheduleRepository.save(schedule);
-            return "redirect:/admin/routes";
+
+        Set<Day> set = schedule.getPeriodical();
+        for (Day day : set) {
+            try {
+                Regulator regulator = regulatorRepository.findByScheduleAndDay(schedule, day);
+                if (regulator.getDepartureTime() == null) {
+                    schedule.getPeriodical().remove(day);
+                    regulatorRepository.delete(regulator);
+                    scheduleRepository.save(schedule);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
-
-        schedule.getPeriodical().clear();
-        regulatorRepository.deleteAllBySchedule(schedule);
-
+        Set<Integer> set1 = regulatorService.getDaysIdList(schedule);
         for (Integer day : days) {
-            if (day == 0) {
+            if (day == 0 || set1.contains(day)) {
                 continue;
             }
             Regulator regulator = new Regulator();
@@ -228,6 +250,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/routes", params = {"regulator", "date_from", "date_to", "dep_time", "arr_time"})
+    @Transactional
     public String flightCreator(Model model, @RequestParam("regulator") int id,
                                    @RequestParam("date_from") String date_from,
                                    @RequestParam("date_to") String date_to,

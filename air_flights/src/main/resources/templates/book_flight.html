@@ -7,12 +7,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script th:src="@{/js/load_airports_from_api.js}"></script>
 </head>
-<body>
+<body onload="load_airports();">
 <div class="centrator">
     <form class="form" th:action="@{/account/book_flight}" method="post" th:object="${flight}">
         <div class="form-group">
             <label for="input1">From</label>
-            <select class="form-control" name="airport_from" id="input1" onchange="load_airports()" onload="load_airports()">
+            <select class="form-control" name="airport_from" id="input1" onchange="load_airports()">
                 <option th:each="airport : ${airports}" th:value="${airport.getAirportCode()}" th:text="${airport.getCountry() + ', ' + airport.getCity() + ' (' + airport.getAirportCode() + ')' }"/>
             </select>
         </div>

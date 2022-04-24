@@ -83,4 +83,14 @@ public class AccountController {
         model.addAttribute("flight", new Regulator());
         return "book_flight";
     }
+
+    @PostMapping(value = "/account/book_flight", params = {"airport_from", "airport_to"})
+    public String bookingFlightSelectDateView(Model model,
+                                              @RequestParam("airport_from") String airport_from,
+                                              @RequestParam("airport_to") String airport_to) {
+
+        model.addAttribute("from", airport_from);
+        model.addAttribute("to", airport_to);
+        return "select_date";
+    }
 }

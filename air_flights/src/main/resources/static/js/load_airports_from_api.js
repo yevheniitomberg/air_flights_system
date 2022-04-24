@@ -61,12 +61,13 @@ $(function()
             {
                 return [available(dt), "" ];
             }
-        , changeMonth: true, changeYear: false, dateFormat: "yyyy-MM-dd"});
+        , changeMonth: true, changeYear: false});
 });
 
 var availableDates = []
 
 function load_dates() {
+
     var from = $('#from').attr("data-from")
     var to = $('#to').attr("data-to")
 
@@ -80,7 +81,16 @@ function load_dates() {
 }
 
 function available(date) {
-    dmy = date.getFullYear()  + "-" + (date.getMonth()+1) + "-" + date.getDate();
+    var d_str = "" + date.getDate()
+    var m_str = "0" + (date.getMonth()+1)
+    if (date.getDate() < 10) {
+        d_str = "0" + date.getDate()
+    }
+    if ((date.getMonth()+1) < 10) {
+        m_str = "0" + (date.getMonth()+1)
+    }
+
+    dmy = date.getFullYear()  + "-" + m_str + "-" + d_str;
     if ($.inArray(dmy, availableDates) != -1) {
         return true;
     } else {

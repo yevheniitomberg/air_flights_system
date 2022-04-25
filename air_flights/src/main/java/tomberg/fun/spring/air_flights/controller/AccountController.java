@@ -173,4 +173,25 @@ public class AccountController {
         model.addAttribute("baggs", baggages);
         return "select_baggage";
     }
+
+    @PostMapping(value = "/account/book_flight", params = {"selected_bag"})
+    public String bookingFlightSelectedBag(Model model,
+                                              @RequestParam("selected_bag") int sel_bag) {
+
+
+        SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
+
+        selfFlight.setBaggage(baggageRepository.getById(sel_bag));
+        int cost = selfFlight.getFinalCost();
+        selfFlight.setFinalCost(cost + selfFlight.getBaggage().getAdditionalFee());
+
+        selfFlightRepository.save(selfFlight);
+
+        Schedule schedule = scheduleRepository.findByRoute(selfFlight.getRoute());
+        Regulator regulator = regulatorRepository.findByScheduleAndDay(schedule, dayRepository.findById(selfFlight.getDepDate().getDayOfWeek().getValue()).get());
+        Flight flight = flightRepository.findByDepDateAndRegulator(selfFlight.getDepDate(), regulator);
+
+        model.addAttribute("places", flight.getPlaces());
+        return "select_place";
+    }
 }

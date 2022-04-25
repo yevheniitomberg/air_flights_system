@@ -7,12 +7,13 @@
 </head>
 <body>
 <div class="centrator">
+
     <form class="form" th:action="@{/account/book_flight}" method="post">
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-center align-items-center">Select baggage</li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Hand luggage only
-                <button style="padding: 10px" name="selected_bag" type="submit" th:value="${0}" th:text="Select" class="badge badge-primary badge-pill"/>
+                <button style="padding: 10px" name="selected_bag" type="submit" th:value="${4}" th:text="Select" class="badge badge-primary badge-pill"/>
             </li>
 
             <li th:each="bag : ${baggs}" class="list-group-item d-flex justify-content-between align-items-center">
@@ -22,6 +23,7 @@
         </ul>
         <input type="button" onclick="window.location.href='/account'" class="btn btn-primary my-1" value="Cancel">
     </form>
+
 </div>
 </body>
 </html>

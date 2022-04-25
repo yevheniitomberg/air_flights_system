@@ -9,7 +9,11 @@
 <div class="centrator">
     <form class="form" th:action="@{/account/book_flight}" method="post">
         <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-center align-items-center" th:text="${flight.getRegulator().getSchedule().getRoute().showRoute()}"></li>
+            <li class="list-group-item d-flex justify-content-center align-items-center">Select baggage</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Hand luggage only
+                <input type="hidden" name="selected_bag" th:value="${0}">
+            </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <th:block th:text="${flight.getDepTime()} + ' - ' + ${flight.getArrTime()}"></th:block>
                 <input type="hidden" name="selected_flight" th:value="${flight.getId()}">

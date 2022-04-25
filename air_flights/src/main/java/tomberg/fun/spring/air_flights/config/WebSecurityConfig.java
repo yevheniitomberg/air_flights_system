@@ -36,7 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/css/**").permitAll()
                 .antMatchers("/**/img/**").permitAll()
                 .antMatchers("/**/mp4/**").permitAll()
-                .antMatchers("/**/img/airplane.jpg").permitAll()
                 //Доступ разрешен всем пользователей
                 .antMatchers("/").permitAll()
                 .antMatchers("/homepage").permitAll()

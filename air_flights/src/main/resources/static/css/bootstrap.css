@@ -9099,7 +9099,7 @@ svg{font-weight:bold; height:auto;}
   margin: auto;
   width: 250px;
   height: 741px;
-  background-image: url('../img/airplane.jpg');
+  background-image: url('../img/imageOfPlane.png');
   background-repeat: no-repeat;
   background-position: center;
   display: flex;
@@ -9114,6 +9114,12 @@ svg{font-weight:bold; height:auto;}
   justify-content: space-between;
   border-radius: 15px;
 }
+.place-booked {
+  background-color: #f12d2d;
+}
+.place-not-booked {
+  background-color: #78fd49;
+}
 .column-plane {
   flex: 0 1 45%;
   display: flex;
@@ -9121,12 +9127,12 @@ svg{font-weight:bold; height:auto;}
   justify-content: space-evenly;
 }
 .place {
-  flex: 0 1 40%;
-  background-color: yellow;
+  flex: 0 1 43%;
   text-align: center;
   padding: 2px;
   border-radius: 10px;
-  margin-top: 33px;
+  margin-top: 28px;
+  border: 0;
 }
 
 /*# sourceMappingURL=bootstrap.css.map */

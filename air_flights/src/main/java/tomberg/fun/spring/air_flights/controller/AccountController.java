@@ -58,6 +58,9 @@ public class AccountController {
     @Autowired
     ScheduleRepository scheduleRepository;
 
+    @Autowired
+    PlaceRepository placeRepository;
+
     @GetMapping("/account")
     public String accountView(Model model) {
         try {
@@ -194,12 +197,6 @@ public class AccountController {
 
         Set<Place> set = flight.getPlaces();
 
-        Comparator<Place> PlaceComparator = new Comparator<Place>() {
-            public int compare(Place place1, Place place2) {
-                return place1.compareTo(place2);
-            }
-        };
-
         Object[] array = set.toArray();
         Arrays.sort(array);
 
@@ -212,5 +209,33 @@ public class AccountController {
         model.addAttribute("places", places);
         model.addAttribute("flight", flight);
         return "select_place";
+    }
+
+    @PostMapping(value = "/account/book_flight", params = {"flight_id", "place_id"})
+    public String bookingFlightSelectedPlace(Model model,
+                                             @RequestParam("flight_id") int flight_id,
+                                             @RequestParam("place_id") int place_id) {
+
+        SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
+        selfFlight.setPlace(placeRepository.getById(place_id));
+        selfFlightRepository.save(selfFlight);
+
+        model.addAttribute("user_info", selfFlight.getUserInfo());
+        model.addAttribute("genders", genderRepository.findAll());
+
+        return "data_about_passenger";
+    }
+
+    @PostMapping(value = "/account/book_flight", params = {"gen"})
+    public String bookingFillUserInfo(@ModelAttribute("user_info")UserInfo userInfo, @RequestParam("gen") int gen_id) {
+
+        SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
+        userInfo.setGender(genderRepository.findById(gen_id).get());
+
+        selfFlight.setUserInfo(userInfo);
+
+        selfFlightRepository.save(selfFlight);
+
+        return null;
     }
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select flight</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div class="centrator">
+    <span id="from" th:attr="data-from=${from}"></span>
+    <span id="to" th:attr="data-to=${to}"></span>
+    <form class="form" th:action="@{/account/book_flight}" method="post">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-center align-items-center" th:text="${flight.getRegulator().getSchedule().getRoute().showRoute()}"></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <th:block th:text="${flight.getDepTime()} + ' - ' + ${flight.getArrTime()}"></th:block>
+                <input type="hidden" name="selected_flight" th:value="${flight.getId()}">
+                <button style="padding: 10px" type="submit" th:text="'  ' + ${flight.getPrice()} + ' $  '" class="badge badge-primary badge-pill"/>
+            </li>
+        </ul>
+        <input type="button" onclick="window.location.href='/account'" class="btn btn-primary my-1" value="Cancel">
+    </form>
+</div>
+</body>
+</html>

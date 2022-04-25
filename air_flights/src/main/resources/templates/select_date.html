@@ -13,11 +13,11 @@
 <div class="centrator">
     <span id="from" th:attr="data-from=${from}"></span>
     <span id="to" th:attr="data-to=${to}"></span>
-    <form class="form" th:action="@{/account/book_flight}" method="post" th:object="${flight}">
+    <form class="form" th:action="@{/account/book_flight}" method="post">
         <div class="form-group row">
             <label for="datepicker" class="col-sm-4 col-form-label">Select date</label>
             <div class="col-sm-8">
-                <input type="text" id="datepicker" class="form-control-plaintext border-dark" style="border: 1px solid blue; text-align: center">
+                <input type="text" name="selected_date" id="datepicker" class="form-control-plaintext border-dark" style="border: 1px solid blue; text-align: center">
             </div>
         </div>
         <button type="submit" class="btn btn-primary my-1" id="continue">Continue</button>

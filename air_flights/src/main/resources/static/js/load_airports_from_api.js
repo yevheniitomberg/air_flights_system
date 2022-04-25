@@ -71,13 +71,18 @@ function load_dates() {
     var from = $('#from').attr("data-from")
     var to = $('#to').attr("data-to")
 
+    var curr_date = new Date().toISOString().slice(0, 10).toString()
+
     var url = 'http://localhost:8080/api/dates/'+from+'/'+to;
 
     $.getJSON(url, function (data) {
         for (var date of data) {
-            availableDates.push(date)
+            if (date > curr_date) {
+                availableDates.push(date)
+            }
         }
     });
+
 }
 
 function available(date) {

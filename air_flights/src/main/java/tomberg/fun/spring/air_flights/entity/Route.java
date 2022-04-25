@@ -52,4 +52,7 @@ public class Route {
                 ", airportTo=" + airportTo +
                 '}';
     }
+    public String showRoute() {
+        return airportFrom.getFullName() + " → " + airportTo.getFullName();
+    }
 }

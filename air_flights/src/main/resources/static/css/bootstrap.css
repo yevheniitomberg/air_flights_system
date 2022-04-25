@@ -9099,7 +9099,7 @@ svg{font-weight:bold; height:auto;}
   margin: auto;
   width: 250px;
   height: 741px;
-  background-image: url("plane.png");
+  background-image: url('../img/airplane.jpg');
   background-repeat: no-repeat;
   background-position: center;
   display: flex;

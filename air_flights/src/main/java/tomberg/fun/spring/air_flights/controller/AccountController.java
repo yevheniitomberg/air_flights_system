@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
+@CrossOrigin(allowedHeaders = "*", origins = "http://localhost:8080/")
 public class AccountController {
     @Autowired
     UserRepository userRepository;
@@ -60,7 +61,7 @@ public class AccountController {
     @GetMapping("/account")
     public String accountView(Model model) {
         try {
-            selfFlightRepository.delete(selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail())));
+            selfFlightRepository.deleteAll(selfFlightRepository.findAllByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail())));
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -4,6 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import tomberg.fun.spring.air_flights.entity.SelfFlight;
 import tomberg.fun.spring.air_flights.entity.User;
 
+import java.util.List;
+
 public interface SelfFlightRepository extends JpaRepository<SelfFlight, Integer> {
     SelfFlight findByUserAndPaidFalse(User user);
+    List<SelfFlight> findAllByUserAndPaidFalse(User user);
 }

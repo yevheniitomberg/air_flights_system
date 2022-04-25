@@ -1,10 +1,11 @@
 package tomberg.fun.spring.air_flights.entity;
 
 import javax.persistence.*;
+import java.util.Comparator;
 
 @Entity
 @Table(name = "places")
-public class Place {
+public class Place implements Comparable<Place>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -23,6 +24,11 @@ public class Place {
 
     public Place() {
 
+    }
+
+    @Override
+    public int compareTo(Place o) {
+        return number-o.number;
     }
 
     public Integer getId() {
@@ -47,5 +53,13 @@ public class Place {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "booked=" + booked +
+                ", number=" + number +
+                '}';
     }
 }

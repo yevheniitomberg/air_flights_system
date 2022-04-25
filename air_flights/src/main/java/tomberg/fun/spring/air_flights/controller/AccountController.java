@@ -2,6 +2,7 @@ package tomberg.fun.spring.air_flights.controller;
 
 import org.hibernate.mapping.Bag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import tomberg.fun.spring.air_flights.service.UserService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class AccountController {
@@ -178,7 +179,6 @@ public class AccountController {
     public String bookingFlightSelectedBag(Model model,
                                               @RequestParam("selected_bag") int sel_bag) {
 
-
         SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
 
         selfFlight.setBaggage(baggageRepository.getById(sel_bag));
@@ -191,7 +191,24 @@ public class AccountController {
         Regulator regulator = regulatorRepository.findByScheduleAndDay(schedule, dayRepository.findById(selfFlight.getDepDate().getDayOfWeek().getValue()).get());
         Flight flight = flightRepository.findByDepDateAndRegulator(selfFlight.getDepDate(), regulator);
 
-        model.addAttribute("places", flight.getPlaces());
+        Set<Place> set = flight.getPlaces();
+
+        Comparator<Place> PlaceComparator = new Comparator<Place>() {
+            public int compare(Place place1, Place place2) {
+                return place1.compareTo(place2);
+            }
+        };
+
+        Object[] array = set.toArray();
+        Arrays.sort(array);
+
+        List<Place> places = new ArrayList<>();
+
+        for (Object obj: array) {
+            places.add((Place) obj);
+        }
+
+        model.addAttribute("places", places);
         return "select_place";
     }
 }

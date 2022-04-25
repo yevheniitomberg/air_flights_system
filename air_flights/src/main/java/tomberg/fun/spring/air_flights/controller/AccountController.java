@@ -209,6 +209,7 @@ public class AccountController {
         }
 
         model.addAttribute("places", places);
+        model.addAttribute("flight", flight);
         return "select_place";
     }
 }

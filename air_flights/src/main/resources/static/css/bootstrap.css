@@ -9095,39 +9095,38 @@ a.text-dark:hover, a.text-dark:focus {
 }
 svg{font-weight:bold; height:auto;}
 
-.centrator {
-  width: 200px;
-  height: auto;
+.plane-width {
   margin: auto;
+  width: 250px;
+  height: 741px;
+  background-image: url("plane.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
 }
 .plane {
-  background-color: rgb(101, 234, 243);
-  width: 90%;
+  flex: 0 1 50%;
+  padding-top: 20px;
+  padding-bottom: 35px;
   display: flex;
-  padding: 20px;
+  margin: auto;
   flex-wrap: nowrap;
   justify-content: space-between;
   border-radius: 15px;
 }
 .column-plane {
-  flex: 0 1 40%;
+  flex: 0 1 45%;
   display: flex;
-  flex-direction: column;
-}
-.rows {
-  flex: 0 1 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 .place {
-  width: 20px;
-  height: 20px;
+  flex: 0 1 40%;
   background-color: yellow;
   text-align: center;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 2px;
+  border-radius: 10px;
+  margin-top: 33px;
 }
-
 
 /*# sourceMappingURL=bootstrap.css.map */

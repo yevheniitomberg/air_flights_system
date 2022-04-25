@@ -13,11 +13,13 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Hand luggage only
                 <input type="hidden" name="selected_bag" th:value="${0}">
+                <button style="padding: 10px" type="submit" th:text="Select" class="badge badge-primary badge-pill"/>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <th:block th:text="${flight.getDepTime()} + ' - ' + ${flight.getArrTime()}"></th:block>
-                <input type="hidden" name="selected_flight" th:value="${flight.getId()}">
-                <button style="padding: 10px" type="submit" th:text="'  ' + ${flight.getPrice()} + ' $  '" class="badge badge-primary badge-pill"/>
+
+            <li th:each="bag : ${baggs}" class="list-group-item d-flex justify-content-between align-items-center">
+                <th:block th:text="${bag.getWeight()} + ' kg (additional fee ' + ${bag.getAdditionalFee()} + '$)'"></th:block>
+                <input type="hidden" name="selected_bag" th:value="${bag.getId()}">
+                <button style="padding: 10px" type="submit" th:text="Select" class="badge badge-primary badge-pill"/>
             </li>
         </ul>
         <input type="button" onclick="window.location.href='/account'" class="btn btn-primary my-1" value="Cancel">

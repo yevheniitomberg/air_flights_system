@@ -7,8 +7,6 @@
 </head>
 <body>
 <div class="centrator">
-    <span id="from" th:attr="data-from=${from}"></span>
-    <span id="to" th:attr="data-to=${to}"></span>
     <form class="form" th:action="@{/account/book_flight}" method="post">
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-center align-items-center" th:text="${flight.getRegulator().getSchedule().getRoute().showRoute()}"></li>

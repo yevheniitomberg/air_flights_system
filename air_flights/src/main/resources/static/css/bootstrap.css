@@ -9134,4 +9134,7 @@ svg{font-weight:bold; height:auto;}
   margin-top: 28px;
   border: 0;
 }
+.all-flights {
+  flex: 0 1 90%;
+}
 /*# sourceMappingURL=bootstrap.css.map */

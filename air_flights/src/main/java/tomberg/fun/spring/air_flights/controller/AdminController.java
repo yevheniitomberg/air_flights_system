@@ -61,6 +61,9 @@ public class AdminController {
     @Autowired
     RegulatorService regulatorService;
 
+    @Autowired
+    SelfFlightRepository selfFlightRepository;
+
     @GetMapping("")
     public String adminView(Model model) {
         model.addAttribute("user", userRepository.findByEmail(userService.getCurrentEmail()));
@@ -294,5 +297,12 @@ public class AdminController {
             flightRepository.save(flight);
         }
         return "redirect:/admin/routes";
+    }
+
+    @GetMapping(value="/flight/{id}")
+    public String flightInfo(Model model, @PathVariable int id) {
+        SelfFlight selfFlight = selfFlightRepository.getById(id);
+        model.addAttribute("self_flight", selfFlight);
+        return "admin_flight_view";
     }
 }

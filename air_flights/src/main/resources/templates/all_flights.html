@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All flights</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div class="container-account">
+    <div class="cont-component flights all-flights" style="align-self: start;height: auto;padding: 20px;text-align: center;">
+        <div th:if="${flights.isEmpty() != true}" th:each="flight : ${flights}" class="flight">
+            <div class="flight-el-b">
+                <div th:text="${flight.getRoute().showRoute()}"></div>
+                <div th:text="'Date: ' + ${flight.datesFlight()}"></div>
+                <div th:text="'Time: ' + ${flight.timesFlight()}"></div>
+            </div>
+            <div class="flight-el-l">
+                <form enctype="multipart/form-data" style="justify-content: center; display: flex" th:action="@{/account/flight_info}" method="post">
+                    <button type="submit" class="btn btn-primary my-1" name="qrContent" th:value="${flight.getId()}">Details</button>
+                </form>
+            </div>
+        </div>
+        <div th:if="${flights.isEmpty() == true}" class="flight">
+            <h4>You have not flights yet</h4>
+        </div>
+    </div>
+</div>
+</body>
+</html>

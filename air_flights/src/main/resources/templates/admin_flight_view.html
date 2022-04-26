@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flight info</title>
+    <title>Admin flight view</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
@@ -67,23 +67,12 @@
                     <th>Total</th>
                     <td th:text="${self_flight.costFlight()}"></td>
                 </tr>
-                <tr>
-                    <th>Place №</th>
-                    <td th:text="${self_flight.getPlace().getNumber()}"></td>
-                </tr>
             </table>
         </div>
         <div class="homepage-button-cont">
             <button  class="btn btn-primary my-1" th:text="Account" onclick="window.location.href='/account'"/>
         </div>
     </div>
-
-
-    <div class="cont-component flights" style="align-self: start;height: auto;padding: 20px;text-align: center;">
-        <h4 style="flex: 0 1 100%">Boarding pass</h4>
-        <img th:src="${qrCodeContent}" alt="">
-    </div>
 </div>
-
 </body>
 </html>

@@ -80,9 +80,7 @@
                     </form>
                 </div>
             </div>
-            <form style="justify-content: center; display: flex" th:action="@{/account}" method="post">
-                <button type="submit" class="btn btn-primary my-1" name="all_flights">Show all flights</button>
-            </form>
+            <button type="button" class="btn btn-primary my-1" onclick="window.location.href='/account/all_flights'">Show all flights</button>
             <div th:if="${flights.isEmpty() == true}" class="flight">
                 <h4>You have not flights yet</h4>
             </div>

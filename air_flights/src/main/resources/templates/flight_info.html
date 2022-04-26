@@ -3,8 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Flight info</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
-    <img th:src="${qrCodeContent}" alt="">
+<div class="container-account">
+    <div class="cont-component" style="align-self: start;">
+        <div class="user-info">
+            <table  class="table table-striped table-hover" style="flex: 0 1 100%">
+                <tr>
+                    <th>Name</th>
+                    <td th:text="${self_flight.getUserInfo().getName()}"></td>
+                </tr>
+                <tr>
+                    <th>Surname</th>
+                    <td th:text="${self_flight.getUserInfo().getSurname()}"></td>
+                </tr>
+                <tr>
+                    <th>Citizenship</th>
+                    <td th:text="${self_flight.getUserInfo().getCitizenship()}"></td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td th:if="${self_flight.getUserInfo().getGender() != null}" th:text="${self_flight.getUserInfo().getGender().getName()}"></td>
+                    <td th:if="${self_flight.getUserInfo().getGender() == null}" th:text="null"></td>
+                </tr>
+                <tr>
+                    <th>Date of birth</th>
+                    <td th:text="${self_flight.getUserInfo().getDate_of_birth()}"></td>
+                </tr>
+                <tr>
+                    <th>Pass number</th>
+                    <td th:text="${self_flight.getUserInfo().getPass_num()}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="cont-component" style="align-self: start;height: auto;padding: 20px;text-align: center;">
+        <div class="hello">
+            <h4>Flight info</h4>
+        </div>
+        <div class="user-info">
+            <table  class="table table-striped table-hover" style="flex: 0 1 100%">
+                <tr>
+                    <th>Route</th>
+                    <td th:text="${self_flight.getRoute().showRoute()}"></td>
+                </tr>
+                <tr>
+                    <th>Departure/Arrive dates</th>
+                    <td th:text="${self_flight.datesFlight()}"></td>
+                </tr>
+                <tr>
+                    <th>Departure/Arrive time</th>
+                    <td th:text="${self_flight.timesFlight()}"></td>
+                </tr>
+                <tr>
+                    <th>Baggage info</th>
+                    <td th:text="${self_flight.getBaggage().baggageString()}"></td>
+                </tr>
+                <tr>
+                    <th>Total</th>
+                    <td th:text="${self_flight.costFlight()}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="homepage-button-cont">
+            <button  class="btn btn-primary my-1" th:text="Account" onclick="window.location.href='/account'"/>
+        </div>
+    </div>
+
+
+    <div class="cont-component flights" style="align-self: start;height: auto;padding: 20px;text-align: center;">
+        <img th:src="${qrCodeContent}" alt="">
+    </div>
+</div>
+
 </body>
 </html>

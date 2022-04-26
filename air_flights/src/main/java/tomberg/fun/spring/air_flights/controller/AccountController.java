@@ -68,27 +68,20 @@ public class AccountController {
     @Autowired
     QRCodeService qrCodeService;
 
-
-    @RequestMapping("/index")
-    public String index() {
-        return "index";
-    }
-
     @PostMapping("/account/flight_info")
     public String showQRCode(String qrContent, Model model) {
-        model.addAttribute("qrCodeContent", "/generateQRCode?qrContent=" + qrContent);
+        model.addAttribute("qrCodeContent", "/generateQRCode?qrContent=https://booking.tomberg.fun/admin/flight/" + qrContent);
+        model.addAttribute("self_flight", selfFlightRepository.getById(Integer.parseInt(qrContent)));
         return "flight_info";
     }
 
     @GetMapping("/generateQRCode")
     public void generateQRCode(String qrContent, HttpServletResponse response) throws IOException {
         response.setContentType("image/png");
-        byte[] qrCode = qrCodeService.generateQRCode(qrContent, 500, 500);
+        byte[] qrCode = qrCodeService.generateQRCode(qrContent, 300, 300);
         OutputStream outputStream = response.getOutputStream();
         outputStream.write(qrCode);
     }
-
-
 
     @GetMapping("/account")
     public String accountView(Model model) {

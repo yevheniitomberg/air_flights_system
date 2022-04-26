@@ -43,6 +43,6 @@ public class Baggage {
     }
 
     public String baggageString() {
-        return weight + " kg (additional fee " + additionalFee +")";
+        return weight + " kg (additional fee " + additionalFee +" $)";
     }
 }

@@ -81,7 +81,7 @@ public class AccountController {
         User user = userRepository.findByEmail(userService.getCurrentEmail());
         model.addAttribute("user", user);
         model.addAttribute("info", user.getUserInfo());
-        //model.addAttribute("flights", flightsRepository.findAllByUser(user));
+        model.addAttribute("flights", selfFlightRepository.findAllByUserAndPaidTrueOrderByDepDateDesc(user));
         return "account";
     }
 

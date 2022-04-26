@@ -23,6 +23,14 @@
                         <th>Departure/Arrive time</th>
                         <td th:text="${self_flight.timesFlight()}"></td>
                     </tr>
+                    <tr>
+                        <th>Baggage info</th>
+                        <td th:text="${self_flight.getBaggage().baggageString()}"></td>
+                    </tr>
+                    <tr>
+                        <th>Total</th>
+                        <td th:text="${self_flight.costFlight()}"></td>
+                    </tr>
                 </table>
             </div>
         </div>

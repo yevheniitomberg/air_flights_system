@@ -68,11 +68,11 @@
 
 
         <div class="cont-component flights" style="align-self: start;height: auto;padding: 20px;text-align: center;">
-<!--            <div th:if="${flights.isEmpty() != true}" th:each="flight : ${flights}" class="flight">
+            <div th:if="${flights.isEmpty() != true}" th:each="flight : ${flights}" class="flight">
                 <div class="flight-el-b">
-                    <div th:text="'Date: ' + ${flight.getDeparture_date()}"></div>
-                    <div th:text="'From: ' + ${flight.getAirportFrom().getCountry() + ' ('+ flight.getAirportFrom().getAirportCode()+')'}"></div>
-                    <div th:text="'To: ' + ${flight.getAirportTo().getCountry() + ' ('+ flight.getAirportTo().getAirportCode()+')'}"></div>
+                    <div th:text="${flight.getRoute().showRoute()}"></div>
+                    <div th:text="'Date: ' + ${flight.datesFlight()}"></div>
+                    <div th:text="'Time: ' + ${flight.timesFlight()}"></div>
                 </div>
                 <div class="flight-el-l">
                     <form style="justify-content: center; display: flex" th:action="@{/account}" method="post">
@@ -80,9 +80,8 @@
                         <button type="submit" class="btn btn-primary my-1" name="details">Details</button>
                     </form>
                 </div>
-            </div>-->
-            <!---th:if="${flights.isEmpty() == true}"--->
-            <div class="flight">
+            </div>
+            <div th:if="${flights.isEmpty() == true}" class="flight">
                 <h4>You have not flights yet</h4>
             </div>
         </div>

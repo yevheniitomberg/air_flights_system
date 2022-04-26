@@ -163,4 +163,22 @@ public class SelfFlight {
     public String costFlight() {
         return finalCost + " $";
     }
+
+    @Override
+    public String toString() {
+        return "SelfFlight{" +
+                "id=" + id +
+                ", depDate=" + depDate +
+                ", arrDate=" + arrDate +
+                ", depTime=" + depTime +
+                ", arrTime=" + arrTime +
+                ", route=" + route +
+                ", user=" + user +
+                ", userInfo=" + userInfo +
+                ", place=" + place +
+                ", baggage=" + baggage +
+                ", finalCost=" + finalCost +
+                ", paid=" + paid +
+                '}';
+    }
 }

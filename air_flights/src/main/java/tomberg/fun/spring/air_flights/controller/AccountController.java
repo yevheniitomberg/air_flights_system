@@ -228,7 +228,10 @@ public class AccountController {
                                              @RequestParam("place_id") int place_id) {
 
         SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
-        selfFlight.setPlace(placeRepository.getById(place_id));
+        Place place = placeRepository.getById(place_id);
+        place.setBooked(true);
+        placeRepository.save(place);
+        selfFlight.setPlace(place);
         selfFlightRepository.save(selfFlight);
 
         model.addAttribute("user_info", selfFlight.getUserInfo());
@@ -238,18 +241,33 @@ public class AccountController {
     }
 
     @PostMapping(value = "/account/book_flight", params = {"gen"})
-    public String bookingFillUserInfo(@ModelAttribute("user_info")UserInfo userInfo, @RequestParam("gen") int gen_id) {
+    public String bookingFillUserInfo(@ModelAttribute("user_info")UserInfo userInfo,
+                                      @RequestParam("gen") int gen_id,
+                                      Model model) {
 
         SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
         userInfo.setGender(genderRepository.findById(gen_id).get());
 
         if (selfFlight.getUserInfo().getPass_num().equals(userInfo.getPass_num())) {
+            model.addAttribute("self_flight", selfFlight);
             return "payment";
         } else {
             userInfoRepository.save(userInfo);
             selfFlight.setUserInfo(userInfo);
             selfFlightRepository.save(selfFlight);
+            model.addAttribute("self_flight", selfFlight);
             return "payment";
         }
+    }
+
+    @PostMapping(value = "/account/book_flight", params = {"payment"})
+    public String bookingPayment(@RequestParam("payment") boolean payment, Model model) {
+
+        SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
+        if (payment) {
+            selfFlight.setPaid(true);
+            selfFlightRepository.save(selfFlight);
+        }
+        return  "redirect:/account";
     }
 }

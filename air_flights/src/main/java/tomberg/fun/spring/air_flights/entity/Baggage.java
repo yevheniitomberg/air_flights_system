@@ -41,4 +41,8 @@ public class Baggage {
     public void setAdditionalFee(int additionalFee) {
         this.additionalFee = additionalFee;
     }
+
+    public String baggageString() {
+        return weight + " kg (additional fee " + additionalFee +")";
+    }
 }

@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Payment</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
-    <h1>Payment</h1>
+<div class="centrator">
+    <form class="form" th:action="@{/account/book_flight}" method="post">
+        <div class="cont-component">
+            <div class="user-info">
+                <table  class="table table-striped table-hover" style="flex: 0 1 100%">
+                    <tr>
+                        <th>Route</th>
+                        <td th:text="${self_flight.getRoute().showRoute()}"></td>
+                    </tr>
+                    <tr>
+                        <th>Departure/Arrive dates</th>
+                        <td th:text="${self_flight.datesFlight()}"></td>
+                    </tr>
+                    <tr>
+                        <th>Departure/Arrive time</th>
+                        <td th:text="${self_flight.timesFlight()}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <button type="submit" name="payment" class="btn btn-primary my-1" th:text="'Formally pay'" th:value="${true}"/>
+        <input type="button" onclick="window.location.href='/account'" class="btn btn-primary my-1" value="Cancel">
+    </form>
+</div>
 </body>
 </html>

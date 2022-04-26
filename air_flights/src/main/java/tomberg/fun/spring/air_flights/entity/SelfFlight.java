@@ -151,4 +151,16 @@ public class SelfFlight {
     public void setFinalCost(int finalCost) {
         this.finalCost = finalCost;
     }
+
+    public String datesFlight() {
+        return depDate + " → " + arrDate;
+    }
+
+    public String timesFlight() {
+        return depTime + " - " + arrTime;
+    }
+
+    public String costFlight() {
+        return finalCost + " $";
+    }
 }

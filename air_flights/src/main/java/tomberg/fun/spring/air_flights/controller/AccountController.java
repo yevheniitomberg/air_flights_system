@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import tomberg.fun.spring.air_flights.entity.*;
 import tomberg.fun.spring.air_flights.entity.location.Airport;
 import tomberg.fun.spring.air_flights.repository.*;
+import tomberg.fun.spring.air_flights.service.QRCodeService;
 import tomberg.fun.spring.air_flights.service.UserInfoService;
 import tomberg.fun.spring.air_flights.service.UserService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -61,6 +65,31 @@ public class AccountController {
     @Autowired
     PlaceRepository placeRepository;
 
+    @Autowired
+    QRCodeService qrCodeService;
+
+
+    @RequestMapping("/index")
+    public String index() {
+        return "index";
+    }
+
+    @PostMapping("/account/flight_info")
+    public String showQRCode(String qrContent, Model model) {
+        model.addAttribute("qrCodeContent", "/generateQRCode?qrContent=" + qrContent);
+        return "flight_info";
+    }
+
+    @GetMapping("/generateQRCode")
+    public void generateQRCode(String qrContent, HttpServletResponse response) throws IOException {
+        response.setContentType("image/png");
+        byte[] qrCode = qrCodeService.generateQRCode(qrContent, 500, 500);
+        OutputStream outputStream = response.getOutputStream();
+        outputStream.write(qrCode);
+    }
+
+
+
     @GetMapping("/account")
     public String accountView(Model model) {
         try {
@@ -81,11 +110,16 @@ public class AccountController {
         User user = userRepository.findByEmail(userService.getCurrentEmail());
         model.addAttribute("user", user);
         model.addAttribute("info", user.getUserInfo());
-        model.addAttribute("flights", selfFlightRepository.findAllByUserAndPaidTrueOrderByDepDateDesc(user));
+        List<SelfFlight> selfFlights = selfFlightRepository.findAllByUserAndPaidTrueOrderByDepDateDesc(user);
+        List<SelfFlight> selfFlightsFirst3 = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            selfFlightsFirst3.add(selfFlights.get(i));
+        }
+        model.addAttribute("flights", selfFlightsFirst3);
         return "account";
     }
 
-    @PostMapping("/account")
+    @PostMapping(value = "/account", params = {"action"})
     public String accountOperations(@RequestParam("action") String action, Model model) {
         User user = userRepository.findByEmail(userService.getCurrentEmail());
         if (action.equals("update")) {
@@ -98,6 +132,27 @@ public class AccountController {
         }
         return "account";
     }
+
+/*    @PostMapping(value = "/account", params = {"details"})
+    public String flightDetails(@RequestParam("details") int id, Model model) {
+
+        SelfFlight selfFlight = selfFlightRepository.getById(id);
+        return "account";
+    }*/
+
+/*    @PostMapping(value = "/account", params = {"qrContent"})
+    public String showQRCode(@RequestParam("qrContent") String qrContent, Model model) {
+        model.addAttribute("qrContent", "/generateQRCode?qrContent=" + qrContent);
+        return "flight_info";
+    }
+
+    @GetMapping("/generateQRCode")
+    public void generateQRCode(String qrContent, HttpServletResponse response) throws IOException {
+        response.setContentType("image/png");
+        byte[] qrCode = qrCodeService.generateQRCode(qrContent, 500, 500);
+        OutputStream outputStream = response.getOutputStream();
+        outputStream.write(qrCode);
+    }*/
 
     @GetMapping("/account/update_info")
     public String accountUpdateUserInfoView(Model model) {

@@ -10,7 +10,7 @@
 
 
     <div class="container-account">
-        <div class="cont-component">
+        <div class="cont-component" style="align-self: start;">
             <div class="user-info">
                 <table  class="table table-striped table-hover" style="flex: 0 1 100%">
                     <tr>
@@ -75,12 +75,14 @@
                     <div th:text="'Time: ' + ${flight.timesFlight()}"></div>
                 </div>
                 <div class="flight-el-l">
-                    <form style="justify-content: center; display: flex" th:action="@{/account}" method="post">
-                        <input type="hidden" name="user_id" th:value="${flight.getId()}">
-                        <button type="submit" class="btn btn-primary my-1" name="details">Details</button>
+                    <form enctype="multipart/form-data" style="justify-content: center; display: flex" th:action="@{/account/flight_info}" method="post">
+                        <button type="submit" class="btn btn-primary my-1" name="qrContent" th:value="${flight.getId()}">Details</button>
                     </form>
                 </div>
             </div>
+            <form style="justify-content: center; display: flex" th:action="@{/account}" method="post">
+                <button type="submit" class="btn btn-primary my-1" name="all_flights">Show all flights</button>
+            </form>
             <div th:if="${flights.isEmpty() == true}" class="flight">
                 <h4>You have not flights yet</h4>
             </div>

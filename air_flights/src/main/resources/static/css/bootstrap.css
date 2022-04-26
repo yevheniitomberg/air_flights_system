@@ -9011,7 +9011,7 @@ a.text-dark:hover, a.text-dark:focus {
   transition: 0.5s ease;
 }
 .cont-component {
-  flex: 0 1 30%;
+  flex: 0 1 45%;
   height: 100%;
   background-color: #25cddc;
   border-radius: 10px;
@@ -9134,5 +9134,4 @@ svg{font-weight:bold; height:auto;}
   margin-top: 28px;
   border: 0;
 }
-
 /*# sourceMappingURL=bootstrap.css.map */

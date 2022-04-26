@@ -1,17 +1,22 @@
 package tomberg.fun.spring.air_flights.api;
 
+import com.google.zxing.WriterException;
+import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tomberg.fun.spring.air_flights.entity.Flight;
 import tomberg.fun.spring.air_flights.entity.Regulator;
 import tomberg.fun.spring.air_flights.entity.location.Airport;
 import tomberg.fun.spring.air_flights.repository.*;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")

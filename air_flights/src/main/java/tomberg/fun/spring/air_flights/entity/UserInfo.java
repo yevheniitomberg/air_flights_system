@@ -33,7 +33,7 @@ public class UserInfo {
     @Nullable
     private Gender gender;
 
-    @Column
+    @Column(unique = true)
     @Nullable
     private String pass_num;
 

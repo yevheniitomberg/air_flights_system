@@ -64,7 +64,17 @@ public class AccountController {
     @GetMapping("/account")
     public String accountView(Model model) {
         try {
-            selfFlightRepository.deleteAll(selfFlightRepository.findAllByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail())));
+            List<SelfFlight> selfFlights = selfFlightRepository.findAllByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
+            for (SelfFlight selfFlight : selfFlights) {
+                if (!selfFlight.isPaid()) {
+                    try {
+                        selfFlight.getPlace().setBooked(false);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+            }
+            selfFlightRepository.deleteAll(selfFlights);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -174,6 +184,7 @@ public class AccountController {
         selfFlightRepository.save(selfFlight);
 
         List<Baggage> baggages = baggageRepository.findAll();
+        baggages.remove(baggageRepository.getById(4));
 
         model.addAttribute("baggs", baggages);
         return "select_baggage";
@@ -232,10 +243,13 @@ public class AccountController {
         SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
         userInfo.setGender(genderRepository.findById(gen_id).get());
 
-        selfFlight.setUserInfo(userInfo);
-
-        selfFlightRepository.save(selfFlight);
-
-        return null;
+        if (selfFlight.getUserInfo().getPass_num().equals(userInfo.getPass_num())) {
+            return "payment";
+        } else {
+            userInfoRepository.save(userInfo);
+            selfFlight.setUserInfo(userInfo);
+            selfFlightRepository.save(selfFlight);
+            return "payment";
+        }
     }
 }

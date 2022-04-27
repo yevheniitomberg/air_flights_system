@@ -29,7 +29,7 @@ public class ApiController {
     RegulatorRepository regulatorRepository;
 
     @GetMapping("/book/{action}/{AirportCode}")
-    @CrossOrigin(allowedHeaders = "*", origins = "http://localhost:8080/")
+    @CrossOrigin(allowedHeaders = "*")
     public Set<Airport> airportConnectedSet(@PathVariable String action, @PathVariable String AirportCode) {
 
         if (action.equals("select")) {

@@ -286,17 +286,28 @@ public class AccountController {
 
         SelfFlight selfFlight = selfFlightRepository.findByUserAndPaidFalse(userRepository.findByEmail(userService.getCurrentEmail()));
         userInfo.setGender(genderRepository.findById(gen_id).get());
-
-        if (selfFlight.getUserInfo().getPass_num().equals(userInfo.getPass_num())) {
-            model.addAttribute("self_flight", selfFlight);
-            return "payment";
-        } else {
-            userInfoRepository.save(userInfo);
-            selfFlight.setUserInfo(userInfo);
-            selfFlightRepository.save(selfFlight);
+        try {
+            if (selfFlight.getUserInfo().getPass_num() == null) {
+                userInfoRepository.save(userInfo);
+                selfFlight.setUserInfo(userInfo);
+                selfFlightRepository.save(selfFlight);
+                model.addAttribute("self_flight", selfFlight);
+                return "payment";
+            } else if (!selfFlight.getUserInfo().getPass_num().equals(userInfo.getPass_num())){
+                userInfoRepository.save(userInfo);
+                selfFlight.setUserInfo(userInfo);
+                selfFlightRepository.save(selfFlight);
+                model.addAttribute("self_flight", selfFlight);
+                return "payment";
+            } else {
+                model.addAttribute("self_flight", selfFlight);
+                return "payment";
+            }
+        } catch (Exception e) {
             model.addAttribute("self_flight", selfFlight);
             return "payment";
         }
+
     }
 
     @PostMapping(value = "/account/book_flight", params = {"payment"})

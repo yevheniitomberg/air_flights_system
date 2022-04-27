@@ -4,7 +4,7 @@ function load_airports() {
     var secSel = document.getElementById("input2")
     cont.disabled = false;
     secSel.disabled = false;
-    var url = 'http://localhost:8080/api/book/select/'+airport_code;
+    var url = 'https://booking.tomberg.fun/api/book/select/'+airport_code;
     $.getJSON(url, function(data) {
         var str = ""
         for (var airport of data) {
@@ -18,8 +18,8 @@ function load_connections() {
     var airport_code = $('#sel').find(":selected").val();
     var list_al = document.getElementById("list_already_connected")
     var list_non = document.getElementById("list_non_connected")
-    var url = 'http://localhost:8080/api/book/make_connections/'+airport_code;
-    var url1 = 'http://localhost:8080/api/book/select/'+airport_code;
+    var url = 'https://booking.tomberg.fun/api/book/make_connections/'+airport_code;
+    var url1 = 'https://booking.tomberg.fun/api/book/select/'+airport_code;
 
     var list = $.getJSON(url, function(data) {
         console.log(data)
@@ -73,7 +73,7 @@ function load_dates() {
 
     var curr_date = new Date().toISOString().slice(0, 10).toString()
 
-    var url = 'http://localhost:8080/api/dates/'+from+'/'+to;
+    var url = 'https://booking.tomberg.fun/api/dates/'+from+'/'+to;
 
     $.getJSON(url, function (data) {
         for (var date of data) {

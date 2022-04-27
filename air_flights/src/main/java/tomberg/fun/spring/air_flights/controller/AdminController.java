@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 @RequestMapping("/admin")
@@ -281,7 +282,8 @@ public class AdminController {
             Flight flight = new Flight();
             flight.setDepDate(date);
             flight.setArrDate(date);
-            flight.setPrice(100);
+
+            flight.setPrice(ThreadLocalRandom.current().nextInt(40, 111));
             flight.setPlane(planeRepository.findById(1).get());
             flight.setDepTime(regulator.getDepartureTime());
             flight.setArrTime(regulator.getArriveTime());

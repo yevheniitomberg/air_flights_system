@@ -277,7 +277,7 @@
         <button type="submit" class="btn btn-primary my-1">Add</button>
         <input type="button" onclick="window.location.href='/account'" class="btn btn-primary my-1" value="Account">
         <div th:if="${#fields.hasAnyErrors()}" class="form-group">
-            <label>Errors</label>
+            <label>Errors:</label>
             <ul>
                 <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
             </ul>

@@ -7,5 +7,25 @@ ___
 - Spring Data JPA
 - Spring Security
 - Thymeleaf
-Server: Tomcat
-Database: MariaDB
+- API
+- BCrypt encoder
+- Server: Tomcat
+- Database: MariaDB
+- HTML/CSS/JS
+- amd.tools SMTP
+- VPS (Linux Ubuntu 20.04)
+
+___
+#### External dependencies:
+- Jackson Databind
+- Google Zxing
+
+___
+##### You can sign up by yourself or use the following accounts:
+- Role: USER
+  - Email: peter@tomberg.com
+  - Password: 35Co0W5HHpHuDGwo
+
+- Role: USER and ADMIN
+  - Email: yevhenii@tomberg.com
+  - Password: 78oGc5rINC2IutgM

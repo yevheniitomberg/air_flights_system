@@ -29,3 +29,5 @@ ___
 - Role: USER and ADMIN
   - Email: yevhenii@tomberg.com
   - Password: 78oGc5rINC2IutgM
+___
+#### If you have problems opening the site - write to me. The server may have stopped working.
